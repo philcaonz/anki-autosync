@@ -1,1 +1,1 @@
-# anki-autosync
+AutoSync Addon for Anki
