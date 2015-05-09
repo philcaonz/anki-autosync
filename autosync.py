@@ -1,8 +1,7 @@
 # AutoSync Addon for Anki
-# Author: ftechz
-# Automatically synchronise the deck
-#
-# Auto sync the decks when idle for a certain period
+# Author: ftechz <github.com/ftechz/anki-autosync>
+
+# Automatically synchronise the decks when idle for a certain period
 
 from aqt import mw
 from anki.hooks import addHook
@@ -46,6 +45,7 @@ class AutoSync:
 
         updatedHooks = [
             "showQuestion",
+            "reviewCleanup",
             "editFocusGained",
             "noteChanged",
             "reset",
@@ -54,7 +54,6 @@ class AutoSync:
 
         activtyHooks = [
             "showAnswer",
-            "reviewCleanup",
             "newDeck"
             ]
 
