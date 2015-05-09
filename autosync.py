@@ -1,6 +1,6 @@
 # AutoSync Addon for Anki
 # Author: ftechz <github.com/ftechz/anki-autosync>
-
+#
 # Automatically synchronise the decks when idle for a certain period
 
 from aqt import mw
@@ -30,6 +30,11 @@ class AutoSync:
         if self.timer is not None:
             self.startSyncTimer(minutes)
 
+    def stopTimer(self):
+        if self.timer is not None:
+            self.timer.stop()
+        self.timer = None
+
     def updatedHook(self, *args):
         """Start/restart timer to trigger if idle for a certain period"""
         self.startSyncTimer(self.idlePeriod)
@@ -37,6 +42,11 @@ class AutoSync:
     def activityHook(self, *args):
         """Reset the timer if there is some kind of activity"""
         self.resetTimer(self.idlePeriod)
+
+    def syncHook(self, state):
+        """Stop the timer if synced via other methods"""
+        if state == "login":
+            self.stopTimer()
 
     def __init__(self):
         self.idlePeriod = IDLE_PERIOD
@@ -62,5 +72,7 @@ class AutoSync:
 
         for hookName in activtyHooks:
             addHook(hookName, self.activityHook)
+
+        addHook("sync", self.syncHook)
 
 AutoSync()
